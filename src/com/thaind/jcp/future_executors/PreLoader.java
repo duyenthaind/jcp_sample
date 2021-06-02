@@ -11,6 +11,7 @@ public class PreLoader {
     }
 
     private final FutureTask<ProductInfo> future = new FutureTask<>(new Callable<ProductInfo>(){
+        @Override
         public ProductInfo call() throws Exception {
             return loadProductInfo();
         };
