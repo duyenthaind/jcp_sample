@@ -36,7 +36,7 @@ class Consumer {
     void consumePrime() throws InterruptedException {
         BlockingQueue<BigInteger> queue = new ArrayBlockingQueue<>(10);
 
-        var brokenPrimeProducer = new BrokenPrimeProducer(queue);
+        BrokenPrimeProducer brokenPrimeProducer = new BrokenPrimeProducer(queue);
         brokenPrimeProducer.start();
         try {
             while (needMorePrime()) {

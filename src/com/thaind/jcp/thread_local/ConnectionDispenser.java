@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 public class ConnectionDispenser {
     private static String URL = "jdbc:mysql://localhost/test_database";
 
-    public ThreadLocal<Connection> connectionHolder = new ThreadLocal<>(){
+    public ThreadLocal<Connection> connectionHolder = new ThreadLocal(){
         @Override
         public Connection initialValue(){
             try{
