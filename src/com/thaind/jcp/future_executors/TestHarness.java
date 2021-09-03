@@ -8,22 +8,19 @@ public class TestHarness {
         final CountDownLatch signalEnd = new CountDownLatch(nThreads);
 
         for (int i = -1; ++i < nThreads;) {
-            Thread thread = new Thread() {
-                public void run() {
+            Thread thread = new Thread(() -> {
+                try {
+                    signalStart.await();
                     try {
-                        signalStart.await();
-                        try {
-                            System.out.println("wakeup thread: " + Thread.currentThread().getName() + " at: " +  System.currentTimeMillis());
-                            task.run();
-                        } finally {
-                            signalEnd.countDown();
-                        }
-                    } catch (InterruptedException ex) {
-                        ex.printStackTrace();
+                        System.out.println("wakeup thread: " + Thread.currentThread().getName() + " at: " +  System.currentTimeMillis());
+                        task.run();
+                    } finally {
+                        signalEnd.countDown();
                     }
-                };
-
-            };
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+            });
             thread.start();
         }
 
@@ -35,12 +32,7 @@ public class TestHarness {
     }
 
     public static void main(String[] args) {
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-                System.out.println("Running thread: " + Thread.currentThread().getName());
-            }
-        };
+        Runnable runnable = () -> System.out.println("Running thread: " + Thread.currentThread().getName());
         try {
             System.out.println((new TestHarness()).timeTask(5, runnable));
 
