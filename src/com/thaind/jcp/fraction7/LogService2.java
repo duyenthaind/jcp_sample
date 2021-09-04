@@ -22,8 +22,6 @@ public class LogService2 {
         try {
             executorService.shutdown();
             executorService.awaitTermination(5000, TimeUnit.MILLISECONDS);
-        } catch (Exception ex) {
-            System.err.println(ex.toString());
         } finally {
             writer.close();
         }
