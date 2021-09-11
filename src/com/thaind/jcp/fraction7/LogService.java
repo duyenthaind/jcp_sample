@@ -40,6 +40,18 @@ public class LogService {
         }
     }
 
+    public void stopAllService() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    LogService.this.stop();
+                } catch (Exception ignored) {
+                }
+            }
+        });
+    }
+
     private class LoggerThread extends Thread {
         @Override
         public void run() {
